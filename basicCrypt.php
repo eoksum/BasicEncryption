@@ -10,21 +10,13 @@ where you want encryption/decryption via BasicEncryption.
 
 */
 
+<?php
+
 function encrypt($str, $pad) {
 	
 	$enc = '';
 	$i = 0;
 	$j = 0;
-	$padsum = 0;
-	$padcount = count($pad);
-	
-	while($j < $padcount) {
-	    
-	    $padsum += $pad[$j];
-	    $j++;
-	}
-	
-	$padsum = $padsum / $padcount;
 	
 	$strsplt = str_split($str);
 	$i = 0;
@@ -35,7 +27,7 @@ function encrypt($str, $pad) {
 			$i = 0;
 		}
 		
-		$enc .= chr((ord($char) + $pad[$i]) + sqrt($padsum));
+		$enc .= chr((ord($char) + $pad[$i]));
 		$i++;
 	}
 	
@@ -43,22 +35,11 @@ function encrypt($str, $pad) {
 	
 	return $enc;
 }
-
 function decrypt($str, $pad) {
 	
 	$dec = '';
 	$i = 0;
 	$j = 0;
-	$padsum = 0;
-	$padcount = count($pad);
-	
-	while($j < $padcount) {
-	    
-	    $padsum += $pad[$j];
-	    $j++;
-	}
-	
-	$padsum = $padsum / $padcount;
 	
 	$str = base64_decode($str);
 	
@@ -71,7 +52,7 @@ function decrypt($str, $pad) {
 			$i = 0;
 		}
 		
-		$dec .= chr((ord($char) - $pad[$i]) - sqrt($padsum));
+		$dec .= chr((ord($char) - $pad[$i]));
 		$i++;
 	}
 	
